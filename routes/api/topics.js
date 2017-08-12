@@ -1,17 +1,17 @@
 /**
- * user 路由
- * 作者：黄家钱 Wed Aug 09 2017 19:40:33 GMT+0800 (中国标准时间)
+ * topic 路由
+ * 作者：黄家钱 Sat Aug 12 2017 17:27:17 GMT+0800 (中国标准时间)
  */
 
-let User = require('../models/User');
+let Topic = require('../../models/Topic');
 let express = require('express');
 let router = express.Router();
 
 //增加
 router.post('/', function (req, res, next) {
-    let user = req.body;
-    user.createTime = new Date();
-    new User(user).save(function (err, result) {
+    let topic = req.body;
+    topic.createTime = new Date();
+    new Topic(topic).save(function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
 //删除
 router.delete('/:id', function (req, res, next) {
     let id = req.params.id;
-    User.remove({
+    Topic.remove({
         _id: id
     }, function (err, result) {
         if (err) {
@@ -35,11 +35,11 @@ router.delete('/:id', function (req, res, next) {
 //修改
 router.put('/:id', function (req, res, next) {
     let id = req.params.id;
-    let user = req.body;
-    user.updateTime = new Date();
-    User.update({
+    let topic = req.body;
+    topic.updateTime = new Date();
+    Topic.update({
         _id: id
-    }, user, function (err, result) {
+    }, topic, function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -50,7 +50,7 @@ router.put('/:id', function (req, res, next) {
 //查询
 router.get('/:id', function (req, res, next) {
     let id = req.params.id;
-    User.findById(id, function (err, result) {
+    Topic.findById(id, function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -64,7 +64,7 @@ router.get('', function (req, res, next) {
     let rows = req.query.rows;
     // 查询全部
     if (!page) {
-        User.find(function (err, allResult) {
+        Topic.find(function (err, allResult) {
             if (err) {
                 res.send(err);
             } else {
@@ -74,11 +74,11 @@ router.get('', function (req, res, next) {
     } else {
         page = page ? parseInt(page) : 1;
         rows = rows ? parseInt(rows) : 10;
-        User.find({}).skip((page - 1) * rows).limit(rows).exec(function (err, someResult) {
+        Topic.find({}).skip((page - 1) * rows).limit(rows).exec(function (err, someResult) {
             if (err) {
                 res.send(err);
             } else {
-                User.find(function (err, allResult) {
+                Topic.find(function (err, allResult) {
                     if (err) {
                         res.send(err);
                     } else {

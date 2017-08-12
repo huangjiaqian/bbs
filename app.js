@@ -7,10 +7,10 @@ let bodyParser = require('body-parser');
 let lessMiddleware = require('less-middleware');
 
 let index = require('./routes/index');
-let comments = require('./routes/comments');
-let modules = require('./routes/modules');
-let topics = require('./routes/topics');
-let users = require('./routes/users');
+let comments = require('./routes/api/comments');
+let modules = require('./routes/api/modules');
+let topics = require('./routes/api/topics');
+let users = require('./routes/api/users');
 
 let app = express();
 

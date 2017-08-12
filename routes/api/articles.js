@@ -1,17 +1,17 @@
 /**
- * topic 路由
- * 作者：黄家钱 Wed Aug 09 2017 19:40:33 GMT+0800 (中国标准时间)
+ * article 路由
+ * 作者：黄家钱 Sat Aug 12 2017 17:27:17 GMT+0800 (中国标准时间)
  */
 
-let Topic = require('../models/Topic');
+let Article = require('../../models/Article');
 let express = require('express');
 let router = express.Router();
 
 //增加
 router.post('/', function (req, res, next) {
-    let topic = req.body;
-    topic.createTime = new Date();
-    new Topic(topic).save(function (err, result) {
+    let article = req.body;
+    article.createTime = new Date();
+    new Article(article).save(function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
 //删除
 router.delete('/:id', function (req, res, next) {
     let id = req.params.id;
-    Topic.remove({
+    Article.remove({
         _id: id
     }, function (err, result) {
         if (err) {
@@ -35,11 +35,11 @@ router.delete('/:id', function (req, res, next) {
 //修改
 router.put('/:id', function (req, res, next) {
     let id = req.params.id;
-    let topic = req.body;
-    topic.updateTime = new Date();
-    Topic.update({
+    let article = req.body;
+    article.updateTime = new Date();
+    Article.update({
         _id: id
-    }, topic, function (err, result) {
+    }, article, function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -50,7 +50,7 @@ router.put('/:id', function (req, res, next) {
 //查询
 router.get('/:id', function (req, res, next) {
     let id = req.params.id;
-    Topic.findById(id, function (err, result) {
+    Article.findById(id, function (err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -63,8 +63,8 @@ router.get('', function (req, res, next) {
     let page = req.query.page;
     let rows = req.query.rows;
     // 查询全部
-    if (!page || !rows) {
-        Topic.find(function (err, allResult) {
+    if (!page) {
+        Article.find(function (err, allResult) {
             if (err) {
                 res.send(err);
             } else {
@@ -74,17 +74,17 @@ router.get('', function (req, res, next) {
     } else {
         page = page ? parseInt(page) : 1;
         rows = rows ? parseInt(rows) : 10;
-        Topic.find({}).skip((page - 1) * rows).limit(rows).exec(function (err, someResult) {
+        Article.find({}).skip((page - 1) * rows).limit(rows).exec(function (err, someResult) {
             if (err) {
                 res.send(err);
             } else {
-                Topic.find(function (err, allResult) {
+                Article.find(function (err, allResult) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send({
                             total: allResult.length,
-                            rows: someResult,
+                            list: someResult,
                         });
                     }
                 });
